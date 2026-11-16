@@ -1,10 +1,9 @@
+// make.fun ai-excited-01 entry — copies entry.png to the output dir
+// for the "Make the AI judge excited" bounty (giant octopus, ramen bowl).
 // ai-excited-01 — "The Ramen Octopus Breaks Out"
 // Entry point for the make.fun bounty "Make the AI judge excited".
-//
-// The whole entry is a single image: entry.png, a giant orange octopus
-// bursting out of a tiny ramen bowl in a cozy noodle shop at night.
-// This program copies that image into the output directory so the grader
-// can find it. Deterministic: same input, same output, every run.
+// Copies the entry image (entry.png) into the output directory so the
+// make.fun grader can find it. Deterministic: same input, same output.
 
 import { copyFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";

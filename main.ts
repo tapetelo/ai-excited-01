@@ -1,21 +1,15 @@
-// make.fun ai-excited-01 entry — copies entry.png to the output dir
-// for the "Make the AI judge excited" bounty (giant octopus, ramen bowl).
-// ai-excited-01 — "The Ramen Octopus Breaks Out"
-// Entry point for the make.fun bounty "Make the AI judge excited".
-// Copies the entry image (entry.png) into the output directory so the
-// make.fun grader can find it. Deterministic: same input, same output.
+// The Ramen Octopus Breaks Out — make.fun ai-excited-01 entry (Node 22, standard library only).
+// The entry image is the entry.png beside this file, and this program copies it,
+// byte for byte, to the output path. The gate takes a whole PNG or JPEG of at
+// most 1 MiB and 1024 by 1024 pixels, and the judge sees exactly the bytes copied.
+//
+// Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
+//   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
 import { copyFileSync, mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 
-// Directory this script lives in — entry.png sits next to it.
-const here = dirname(fileURLToPath(import.meta.url));
-const source = join(here, "entry.png");
-
-// make.fun sets MAKEFUN_OUTPUT_DIR; fall back to "/output" when unset.
-const outputDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
+const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(outputDir, { recursive: true });
-
-copyFileSync(source, join(outputDir, "entry.png"));
-console.log(`Copied entry.png to ${outputDir}`);
+copyFileSync(new URL("./entry.png", import.meta.url), join(outputDir, "entry.png"));
+console.log("wrote entry.png to " + outputDir);
